@@ -1,0 +1,77 @@
+import toast from "react-hot-toast"
+import { stationApis } from "./api"
+import { apiConnector } from "./apiConnector"
+
+
+export const getStationsApi=async(setStations)=>{
+    try{
+        const response=await apiConnector("GET",stationApis.getStations)
+        console.log("response api",response.data.data)
+        setStations(response.data.data)
+    }catch(e){
+        console.log("Error",e)
+    }
+}
+export const updateStationsApi = async (id, data,setFlag) => {
+  const token = localStorage.getItem("token");
+  console.log("Token",token)
+  try {
+    const response = await apiConnector(
+      "PUT",
+      `${stationApis.updateStation}/${id}`,
+      data,
+      {
+        Authorization: `Bearer ${token}`, 
+      }
+    );
+        toast.success("Station Updated Successfully!")
+        setFlag((prev)=>!prev)
+    
+    console.log("response api", response.data);
+  } catch (e) {
+    console.log("Error", e);
+  }
+};
+export const deleteStationsApi = async (id,setFlag) => {
+  const token = localStorage.getItem("token");
+  console.log("Token",token)
+  try {
+    const response = await apiConnector(
+      "DELETE",
+      `${stationApis.deleteStation}/${id}`,
+      {},
+      {
+        Authorization: `Bearer ${token}`, 
+      }
+    );
+        toast.success("Station Deleted Successfully!")
+        setFlag((prev)=>!prev)
+    
+    console.log("response api", response.data);
+  } catch (e) {
+    console.log("Error", e);
+  }
+};
+export const createStationsApi = async (data,setFlag) => {
+  const token = localStorage.getItem("token");
+  const {name,status,powerOutput,connectorType,location}=data
+  console.log("Token",token)
+  try {
+    const response = await apiConnector(
+      "POST",
+      stationApis.createStation,
+      {name,status,powerOutput,connectorType,location},
+      {
+        Authorization: `Bearer ${token}`, 
+      }
+    );
+        toast.success("Station Created Successfully!")
+        setFlag((prev)=>!prev)
+        console.log("response api", response.data);
+        return response
+  } catch (e) {
+    console.log("Error", e);
+  }
+};
+
+
