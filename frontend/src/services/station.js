@@ -58,28 +58,42 @@ export const deleteStationsApi = async (id,setFlag) => {
     console.log("Error", e);
   }
 };
-export const createStationsApi = async (data,setFlag) => {
+export const createStationsApi = async (data, setFlag) => {
   const token = localStorage.getItem("token");
-  const {name,status,powerOutput,connectorType,location}=data
-  console.log("Token",token)
+  let { name, status, powerOutput, connectorType, location } = data;
+
+
+  status = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+
+  
+  const allowedStatuses = ["Active", "Inactive"];
+  if (!allowedStatuses.includes(status)) {
+    return toast.error("Invalid status. Only 'Active' or 'Inactive' is allowed.");
+  }
+
   try {
-    const toastid= toast.loading("please wait...")
+    const toastid = toast.loading("Please wait...");
+
     const response = await apiConnector(
       "POST",
       stationApis.createStation,
-      {name,status,powerOutput,connectorType,location},
+      { name, status, powerOutput, connectorType, location },
       {
-        Authorization: `Bearer ${token}`, 
+        Authorization: `Bearer ${token}`,
       }
     );
-        toast.dismiss(toastid)
-        toast.success("Station Created Successfully!")
-        setFlag((prev)=>!prev)
-        console.log("response api", response.data);
-        return response
+
+    toast.dismiss(toastid);
+    toast.success("Station Created Successfully!");
+    setFlag((prev) => !prev);
+    console.log("response api", response.data);
+    return response;
   } catch (e) {
     console.log("Error", e);
+    toast.dismiss();
+    toast.error("Failed to create station.");
   }
 };
+
 
 
