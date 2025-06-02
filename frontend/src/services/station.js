@@ -5,8 +5,10 @@ import { apiConnector } from "./apiConnector"
 
 export const getStationsApi=async(setStations)=>{
     try{
+        const toastid= toast.loading("please wait...")
         const response=await apiConnector("GET",stationApis.getStations)
         console.log("response api",response.data.data)
+         toast.dismiss(toastid)
         setStations(response.data.data)
     }catch(e){
         console.log("Error",e)
@@ -16,6 +18,7 @@ export const updateStationsApi = async (id, data,setFlag) => {
   const token = localStorage.getItem("token");
   console.log("Token",token)
   try {
+     const toastid= toast.loading("please wait...")
     const response = await apiConnector(
       "PUT",
       `${stationApis.updateStation}/${id}`,
@@ -24,6 +27,7 @@ export const updateStationsApi = async (id, data,setFlag) => {
         Authorization: `Bearer ${token}`, 
       }
     );
+        toast.dismiss(toastid)
         toast.success("Station Updated Successfully!")
         setFlag((prev)=>!prev)
     
@@ -36,6 +40,7 @@ export const deleteStationsApi = async (id,setFlag) => {
   const token = localStorage.getItem("token");
   console.log("Token",token)
   try {
+    const toastid= toast.loading("please wait...")
     const response = await apiConnector(
       "DELETE",
       `${stationApis.deleteStation}/${id}`,
@@ -44,6 +49,7 @@ export const deleteStationsApi = async (id,setFlag) => {
         Authorization: `Bearer ${token}`, 
       }
     );
+        toast.dismiss(toastid)
         toast.success("Station Deleted Successfully!")
         setFlag((prev)=>!prev)
     
@@ -57,6 +63,7 @@ export const createStationsApi = async (data,setFlag) => {
   const {name,status,powerOutput,connectorType,location}=data
   console.log("Token",token)
   try {
+    const toastid= toast.loading("please wait...")
     const response = await apiConnector(
       "POST",
       stationApis.createStation,
@@ -65,6 +72,7 @@ export const createStationsApi = async (data,setFlag) => {
         Authorization: `Bearer ${token}`, 
       }
     );
+        toast.dismiss(toastid)
         toast.success("Station Created Successfully!")
         setFlag((prev)=>!prev)
         console.log("response api", response.data);
