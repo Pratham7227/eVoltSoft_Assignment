@@ -1,4 +1,4 @@
-const ChargeStation = require('../models/ChargingStation');
+const ChargeStation = require('../models/chargingStation');
 
 exports.createStation = async (req, res) => {
   try {
