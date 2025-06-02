@@ -1,4 +1,4 @@
-const BASE_URL="http://localhost:5000"
+const BASE_URL="https://evoltsoft-assignment-1.onrender.com"
 
 export const authApis={
     signup:BASE_URL+'/api/auth/signup',
