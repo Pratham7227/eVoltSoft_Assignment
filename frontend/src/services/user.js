@@ -39,7 +39,6 @@ export const loginApi=async (data,navigate)=>{
        }
     }catch(e){
       console.log("Error in Api",e)
-      toast.dismiss(toastid)
       toast.error(e)
     }
 }
